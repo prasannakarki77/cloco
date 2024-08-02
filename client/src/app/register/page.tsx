@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,14 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -30,14 +22,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Link } from "lucide-react";
+import { registerFn } from "@/lib/apiActions";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "Firstname must be at least 2 characters.",
+  first_name: z.string().min(2, {
+    message: "first_name must be at least 2 characters.",
   }),
-  lastName: z.string().min(2, {
-    message: "Lastname must be at least 2 characters.",
+  last_name: z.string().min(2, {
+    message: "last_name must be at least 2 characters.",
   }),
   address: z.string().min(2, {
     message: "Address must be at least 2 characters.",
@@ -60,8 +53,8 @@ export default function RegisterPage() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       email: "",
       gender: "",
       dob: "",
@@ -70,8 +63,18 @@ export default function RegisterPage() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    window.alert(JSON.stringify(data));
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      const res = await registerFn(data);
+      console.log(res.data.error);
+      if (res.status === 201) {
+        toast.success("User registered successfully!");
+      }
+    } catch (error: any) {
+      if (error?.response?.data?.error) {
+        toast.error(error?.response?.data?.error);
+      } else toast.error("Something went wrong");
+    }
   }
 
   return (
@@ -86,12 +89,12 @@ export default function RegisterPage() {
               <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="firstName"
+                  name="first_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Firstname</FormLabel>
+                      <FormLabel>first_name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Firstname" {...field} />
+                        <Input placeholder="first_name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -99,12 +102,12 @@ export default function RegisterPage() {
                 />
                 <FormField
                   control={form.control}
-                  name="lastName"
+                  name="last_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Lastname</FormLabel>
+                      <FormLabel>last_name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Lastname" {...field} />
+                        <Input placeholder="last_name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
