@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { loginFn } from "@/lib/apiActions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   email: z.string().email({
@@ -28,6 +29,8 @@ const FormSchema = z.object({
 });
 
 export default function Login() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -42,6 +45,7 @@ export default function Login() {
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         toast.success("Logged in successfully");
+        router.push("/dashboard");
       }
     } catch (error: any) {
       if (error?.response?.data?.error) {

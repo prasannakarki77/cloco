@@ -1,6 +1,15 @@
+"use client";
 import Login from "@/components/home/Login";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/dashboard");
+    }
+  });
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Login />
