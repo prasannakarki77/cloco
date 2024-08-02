@@ -1,26 +1,14 @@
 import express from "express";
-import { Pool } from "pg";
+import cors from "cors";
+import userRouter from "./router/userRouter";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
-// PostgreSQL connection setup
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "postgres",
-  password: "postgres",
-  port: 5432, // default PostgreSQL port
-});
+app.use(cors());
+app.use(express.json());
 
-pool
-  .connect()
-  .then(() => console.log("Connected to PostgreSQL"))
-  .catch((err) => console.error("Connection error", err.stack));
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(userRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
