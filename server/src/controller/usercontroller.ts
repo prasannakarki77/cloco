@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import pool from "../config/db";
 import { User } from "../model/user";
 import bcrypt from "bcrypt";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -51,4 +52,42 @@ export const createUser = async (req: Request, res: Response) => {
   }
 
   console.log("first");
+};
+
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
+  const { email, password } = req.body;
+  const JWT_SECRET = process.env.JWT_SECRET || "";
+
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+
+    if (result.rows.length === 0) {
+      res.status(400).json({ error: "Invalid email or password" });
+      return;
+    }
+
+    const user = result.rows[0];
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      res.status(400).json({ error: "Invalid email or password" });
+      return;
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email } as JwtPayload,
+      JWT_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    res.json({ token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to log in" });
+  }
 };
