@@ -7,3 +7,8 @@ export type UserRegistrationInput = {
   dob: string;
   gender: string;
 };
+
+export type LoginUserInput = {
+  email: string;
+  password: string;
+};

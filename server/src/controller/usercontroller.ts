@@ -50,8 +50,6 @@ export const createUser = async (req: Request, res: Response) => {
     console.error(err);
     res.status(500).json({ error: "Failed to create user" });
   }
-
-  console.log("first");
 };
 
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
@@ -87,7 +85,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     res.json({ token });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Failed to log in" });
   }
 };
