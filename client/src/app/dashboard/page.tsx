@@ -12,11 +12,11 @@ const DashboardPage = () => {
   };
   return (
     <AuthGuard>
-      <div>
-        <div className=" flex justify-between">
+      <div className="container p-5">
+        <h1>Welcome to dashboard</h1>
+        <div className=" flex justify-end">
           <Button onClick={handleLogout}>Logout</Button>
         </div>
-        <h1>Welcome to dashboard</h1>
       </div>
     </AuthGuard>
   );
