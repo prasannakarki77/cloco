@@ -32,8 +32,8 @@ const UserTabContent = () => {
   return (
     <div className=" space-y-4">
       <div className=" flex justify-end">
-        <Dialog open={openUserFormModal} onOpenChange={setOpenUserFormModal}>
-          <DialogTrigger>
+        <Dialog defaultOpen={openUserFormModal} modal>
+          <DialogTrigger asChild>
             <Button variant={"secondary"}>Create User</Button>
           </DialogTrigger>
           <DialogContent>

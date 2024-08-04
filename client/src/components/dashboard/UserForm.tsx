@@ -27,6 +27,7 @@ import { API_URL } from "@/lib/utils";
 import { toast } from "sonner";
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
+import { User } from "@/types";
 
 const FormSchema = z.object({
   first_name: z.string().min(2, {
@@ -53,31 +54,42 @@ const FormSchema = z.object({
   }),
 });
 
-export default function UserForm() {
-  const router = useRouter();
+export default function UserForm({ userData }: { userData?: User }) {
   const { fetchUsersData, setOpenUserFormModal } = useContext(UserContext);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      gender: "",
-      dob: "",
-      phone: "",
-      address: "",
+      first_name: userData?.first_name || "",
+      last_name: userData?.last_name || "",
+      email: userData?.email || "",
+      gender: userData?.gender || "",
+      dob: userData?.dob ? userData.dob.toString() : "",
+      phone: userData?.phone || "",
+      address: userData?.address || "",
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const res = await axios.post(`${API_URL}/user/create`, data, {});
-      console.log(res.data.error);
-      if (res.status === 201) {
-        toast.success("User created successfully!");
-        setOpenUserFormModal(false);
-        fetchUsersData();
+      if (userData) {
+        const res = await axios.put(
+          `${API_URL}/user/update`,
+          { id: userData.id, ...data },
+          {}
+        );
+        if (res.status === 200) {
+          toast.success("User updated successfully!");
+          setOpenUserFormModal(false);
+          fetchUsersData();
+        }
+      } else {
+        const res = await axios.post(`${API_URL}/user/create`, data, {});
+        if (res.status === 201) {
+          toast.success("User created successfully!");
+          setOpenUserFormModal(false);
+          fetchUsersData();
+        }
       }
     } catch (error: any) {
       if (error?.response?.data?.error) {
@@ -163,7 +175,7 @@ export default function UserForm() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue placeholder="Select gender" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

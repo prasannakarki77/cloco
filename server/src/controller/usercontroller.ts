@@ -33,8 +33,7 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const updateUserById = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const { first_name, last_name, email, phone, gender, address, dob } =
+    const { id, first_name, last_name, email, phone, gender, address, dob } =
       req.body;
 
     if (
@@ -44,7 +43,8 @@ export const updateUserById = async (req: Request, res: Response) => {
       !phone ||
       !gender ||
       !address ||
-      !dob
+      !dob ||
+      !id
     ) {
       return res.status(400).json({ error: "All fields are required" });
     }
