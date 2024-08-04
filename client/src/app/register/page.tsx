@@ -39,6 +39,9 @@ const FormSchema = z.object({
   email: z.string().email({
     message: "Invalid email address.",
   }),
+  phone: z.string().regex(/^\d{10}$/, {
+    message: "Phone number must be 10 digits long",
+  }),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
   }),
@@ -61,6 +64,7 @@ export default function RegisterPage() {
       email: "",
       gender: "",
       dob: "",
+      phone: "",
       password: "",
       address: "",
     },
@@ -96,9 +100,9 @@ export default function RegisterPage() {
                   name="first_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>first_name</FormLabel>
+                      <FormLabel>Firstname</FormLabel>
                       <FormControl>
-                        <Input placeholder="first_name" {...field} />
+                        <Input placeholder="eg. John" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -109,9 +113,9 @@ export default function RegisterPage() {
                   name="last_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>last_name</FormLabel>
+                      <FormLabel>Lastname</FormLabel>
                       <FormControl>
-                        <Input placeholder="last_name" {...field} />
+                        <Input placeholder="eg. Doe" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -126,9 +130,26 @@ export default function RegisterPage() {
                       <FormLabel>Email Address</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Email Address"
+                          placeholder="eg johndoe@gmail.com"
                           {...field}
                           type="email"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="eg. 9867844564"
+                          {...field}
+                          type="number"
                         />
                       </FormControl>
                       <FormMessage />
@@ -177,20 +198,20 @@ export default function RegisterPage() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Address" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="eg Amatyalaya, Patan" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="password"
