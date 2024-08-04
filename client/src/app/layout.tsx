@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Toaster />
+      <Toaster richColors />
       <body className={inter.className}>
         <div className=" text-center pt-6 pb-2 text-2xl font-bold text-orange-600">
           <h1>Cloco Nepal</h1>
