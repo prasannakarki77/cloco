@@ -42,12 +42,12 @@ export interface User {
 }
 
 export interface Artist {
-  id?: number;
+  id: number;
   name: string;
   gender: Gender;
   address: string;
   dob: Date;
-  first_year_release: number;
+  first_year_release?: number;
   no_of_album_released: number;
   created_at?: Date;
   updated_at?: Date;

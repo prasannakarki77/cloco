@@ -5,7 +5,6 @@ export const createArtist = async (req: Request, res: Response) => {
   try {
     const {
       name,
-      phone,
       gender,
       address,
       dob,
@@ -22,18 +21,10 @@ export const createArtist = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Artist already exists" });
     }
     const result = await pool.query(
-      `INSERT INTO artists (name, phone, gender, address, dob, first_year_release, no_of_album_released)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `INSERT INTO artists (name, gender, address, dob, first_year_release, no_of_album_released)
+         VALUES ($1, $2, $3, $4, $5, $6)
          RETURNING *`,
-      [
-        name,
-        phone,
-        gender,
-        address,
-        dob,
-        first_year_release,
-        no_of_album_released,
-      ]
+      [name, gender, address, dob, first_year_release, no_of_album_released]
     );
     const newArtist = result.rows[0];
     res.status(201).json(newArtist);
@@ -48,7 +39,6 @@ export const updateArtist = async (req: Request, res: Response) => {
     const {
       id,
       name,
-      phone,
       gender,
       address,
       dob,
@@ -56,7 +46,7 @@ export const updateArtist = async (req: Request, res: Response) => {
       no_of_album_released,
     } = req.body;
 
-    if (!name || !phone || !gender || !address || !dob || !id) {
+    if (!name || !gender || !address || !dob || !id) {
       return res.status(400).json({ error: "All fields are required" });
     }
     const artist = await pool.query("SELECT * FROM artists WHERE id = $1", [
@@ -68,19 +58,10 @@ export const updateArtist = async (req: Request, res: Response) => {
 
     const result = await pool.query(
       `UPDATE artists
-         SET name = $1, phone = $2, gender = $3, address = $4, dob = $5, first_year_release = $6, no_of_album_released = $7
-         WHERE id = $8
+         SET name = $1, gender = $2, address = $3, dob = $4, first_year_release = $5, no_of_album_released = $6
+         WHERE id = $7
          RETURNING *`,
-      [
-        name,
-        phone,
-        gender,
-        address,
-        dob,
-        first_year_release,
-        no_of_album_released,
-        id,
-      ]
+      [name, gender, address, dob, first_year_release, no_of_album_released, id]
     );
 
     const updatedArtist = result.rows[0];

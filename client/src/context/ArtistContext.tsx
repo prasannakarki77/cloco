@@ -27,7 +27,7 @@ export const ArtistProvider: React.FC<{ children: ReactNode }> = ({
   const fetchArtistData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_URL}/user/get-all`);
+      const res = await axios.get(`${API_URL}/artist/get-all`);
       setArtistData(res.data);
     } catch (error: any) {
       setError(error.message);
