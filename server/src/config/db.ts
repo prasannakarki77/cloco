@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { createUsersTable } from "./query-commands";
+import { createTables } from "./query-commands";
 
 const pool = new Pool({
   user: "postgres",
@@ -14,7 +14,7 @@ async function initializeDatabase() {
   try {
     const client = await pool.connect();
     console.log("Connected to database");
-    await createUsersTable();
+    await createTables();
     client.release();
   } catch (err) {
     console.error("Database initialization error", err);

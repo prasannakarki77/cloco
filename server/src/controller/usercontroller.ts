@@ -1,5 +1,4 @@
 import pool from "../config/db";
-import { User } from "../model/user";
 import { Request, Response } from "express";
 
 export const createUser = async (req: Request, res: Response) => {
@@ -23,7 +22,7 @@ export const createUser = async (req: Request, res: Response) => {
          RETURNING *`,
       [first_name, last_name, email, phone, gender, address, dob]
     );
-    const newUser: User = result.rows[0];
+    const newUser = result.rows[0];
     res.status(201).json(newUser);
   } catch (err) {
     console.error(err);

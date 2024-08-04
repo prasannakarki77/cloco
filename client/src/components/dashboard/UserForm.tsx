@@ -21,13 +21,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { API_URL } from "@/lib/utils";
 import { toast } from "sonner";
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
-import { User } from "@/types";
+import { User, Gender } from "@/types";
 
 const FormSchema = z.object({
   first_name: z.string().min(2, {
@@ -179,9 +178,9 @@ export default function UserForm({ userData }: { userData?: User }) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="others">Others</SelectItem>
+                    <SelectItem value={Gender.Male}>Male</SelectItem>
+                    <SelectItem value={Gender.Female}>Female</SelectItem>
+                    <SelectItem value={Gender.Other}>Other</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

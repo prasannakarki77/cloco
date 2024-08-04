@@ -25,6 +25,7 @@ import {
 import { registerFn } from "@/lib/apiActions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Gender } from "@/types";
 
 const FormSchema = z.object({
   first_name: z.string().min(2, {
@@ -72,8 +73,7 @@ export default function RegisterPage() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const res = await registerFn(data);
-      console.log(res.data.error);
+      const res = await registerFn({ ...data, gender: data.gender as Gender });
       if (res.status === 201) {
         toast.success("User registered successfully!");
         router.push("/");

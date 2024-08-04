@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import pool from "../config/db";
-import { User } from "../model/user";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
@@ -44,7 +43,7 @@ export const registerUser = async (req: Request, res: Response) => {
       ]
     );
 
-    const newUser: User = result.rows[0];
+    const newUser = result.rows[0];
     res.status(201).json(newUser);
   } catch (err) {
     console.error(err);

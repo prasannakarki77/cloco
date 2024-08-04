@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { API_URL } from "./utils";
-import { LoginUserInput, UserRegistrationInput } from "@/types";
+import { UserRegistrationInput, LoginUserInput } from "@/types";
 
 export const registerFn = async (
   input: UserRegistrationInput
