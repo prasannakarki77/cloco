@@ -1,6 +1,8 @@
 import UserTable from "@/components/dashboard/UserTable";
+import { Card } from "@/components/ui/card";
 import { API_URL } from "@/lib/utils";
 import { User } from "@/types";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const UserTabContent = () => {
@@ -9,11 +11,10 @@ const UserTabContent = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUsersData = async () => {
+    const getUserTableData = async () => {
       try {
-        const response = await fetch(API_URL + "/user/get-all");
-        const data: User[] = await response.json();
-        setUsersData(data || []);
+        const res = await axios.get(`${API_URL}/user/get-all`);
+        setUsersData(res.data);
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -21,16 +22,16 @@ const UserTabContent = () => {
       }
     };
 
-    fetchUsersData();
+    getUserTableData();
   }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    <Card>
       <UserTable data={usersData} />
-    </div>
+    </Card>
   );
 };
 

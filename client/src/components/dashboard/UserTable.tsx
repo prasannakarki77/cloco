@@ -1,9 +1,7 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -14,13 +12,30 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "../ui/button";
+import { API_URL } from "@/lib/utils";
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function UserTable({ data }: { data: User[] }) {
+  const router = useRouter();
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await axios.delete(`${API_URL}/user/delete/${id}`);
+      if (res.status === 200) {
+        toast.success("User deleted Successfully");
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error.res?.data?.message || "Failed to delete data");
+    }
+  };
+
   return (
     <Table>
       {/* <TableCaption>A list of your recent users.</TableCaption> */}
@@ -43,14 +58,14 @@ export default function UserTable({ data }: { data: User[] }) {
         {data.map((user) => (
           <TableRow key={user.id}>
             <TableCell className="font-medium">{user.id}</TableCell>
-            <TableCell>{user.first_name}</TableCell>
-            <TableCell>{user.last_name}</TableCell>
-            <TableCell>{user.email}</TableCell>
-            <TableCell>{user.phone}</TableCell>
-            <TableCell>{user.dob?.toString()}</TableCell>
-            <TableCell>{user.gender}</TableCell>
-            <TableCell>{user.created_at?.toString()}</TableCell>
-            <TableCell>{user.updated_at?.toString()}</TableCell>
+            <TableCell>{user.first_name || "--"}</TableCell>
+            <TableCell>{user.last_name || "--"}</TableCell>
+            <TableCell>{user.email || "--"}</TableCell>
+            <TableCell>{user.phone || "--"}</TableCell>
+            <TableCell>{user.dob?.toString() || "--"}</TableCell>
+            <TableCell>{user.gender || "--"}</TableCell>
+            <TableCell>{user.created_at?.toString() || "--"}</TableCell>
+            <TableCell>{user.updated_at?.toString() || "--"}</TableCell>
             <TableCell>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -61,10 +76,14 @@ export default function UserTable({ data }: { data: User[] }) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem>Copy payment ID</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>View customer</DropdownMenuItem>
-                  <DropdownMenuItem>View payment details</DropdownMenuItem>
+                  <DropdownMenuItem>Update</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      handleDelete(user.id);
+                    }}
+                  >
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>

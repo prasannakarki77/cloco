@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter } from "next/navigation";
+import UserTabContent from "./_tab-contents/UserTabContent";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -27,25 +28,14 @@ const DashboardPage = () => {
           <Button onClick={handleLogout}>Logout</Button>
         </div>
 
-        <div className="">
-          <Tabs defaultValue="account" className="">
+        <div className=" mt-6">
+          <Tabs defaultValue="user" className="">
             <TabsList className="grid  grid-cols-2 w-[400px]">
               <TabsTrigger value="user">User</TabsTrigger>
               <TabsTrigger value="artist">Artist</TabsTrigger>
             </TabsList>
             <TabsContent value="user">
-              <Card>
-                <CardHeader>
-                  <CardTitle>User</CardTitle>
-                  <CardDescription>
-                    Make changes to your account here. Click save when done.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2">addddddsd</CardContent>
-                <CardFooter>
-                  <Button>Save changes</Button>
-                </CardFooter>
-              </Card>
+              <UserTabContent />
             </TabsContent>
             <TabsContent value="artist">
               <Card>
