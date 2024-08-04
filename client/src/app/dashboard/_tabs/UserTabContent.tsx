@@ -13,7 +13,14 @@ import { UserContext } from "@/context/UserContext";
 import React, { useEffect, useContext } from "react";
 
 const UserTabContent = () => {
-  const { error, fetchUsersData, loading, usersData } = useContext(UserContext);
+  const {
+    error,
+    fetchUsersData,
+    loading,
+    usersData,
+    openUserFormModal,
+    setOpenUserFormModal,
+  } = useContext(UserContext);
 
   useEffect(() => {
     fetchUsersData();
@@ -24,18 +31,19 @@ const UserTabContent = () => {
 
   return (
     <div className=" space-y-4">
-      <Dialog>
-        <DialogTrigger>
-          <Button variant="outline">Create User</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create a User</DialogTitle>
-          </DialogHeader>
-          <UserForm />
-        </DialogContent>
-      </Dialog>
-
+      <div className=" flex justify-end">
+        <Dialog open={openUserFormModal} onOpenChange={setOpenUserFormModal}>
+          <DialogTrigger>
+            <Button variant={"secondary"}>Create User</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create a User</DialogTitle>
+            </DialogHeader>
+            <UserForm />
+          </DialogContent>
+        </Dialog>
+      </div>
       <Card>
         <UserTable data={usersData} />
       </Card>

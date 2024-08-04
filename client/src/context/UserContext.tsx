@@ -15,6 +15,8 @@ interface UserContextProps {
   loading: boolean;
   error: string | null;
   fetchUsersData: () => void;
+  openUserFormModal: boolean;
+  setOpenUserFormModal: (value: boolean) => void;
 }
 
 export const UserContext = createContext<UserContextProps>({
@@ -22,6 +24,8 @@ export const UserContext = createContext<UserContextProps>({
   loading: true,
   error: null,
   fetchUsersData: () => {},
+  openUserFormModal: false,
+  setOpenUserFormModal: () => {},
 });
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
@@ -30,6 +34,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [usersData, setUsersData] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [openUserFormModal, setOpenUserFormModal] = useState<boolean>(false);
 
   const fetchUsersData = async () => {
     setLoading(true);
@@ -44,7 +49,16 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <UserContext.Provider value={{ usersData, loading, error, fetchUsersData }}>
+    <UserContext.Provider
+      value={{
+        usersData,
+        loading,
+        error,
+        fetchUsersData,
+        setOpenUserFormModal,
+        openUserFormModal,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter } from "next/navigation";
-import UserTabContent from "./_tab-contents/UserTabContent";
+import UserTabContent from "./_tabs/UserTabContent";
 import { UserProvider } from "@/context/UserContext";
 
 const DashboardPage = () => {

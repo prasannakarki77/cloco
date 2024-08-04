@@ -25,6 +25,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { API_URL } from "@/lib/utils";
 import { toast } from "sonner";
+import { useContext } from "react";
+import { UserContext } from "@/context/UserContext";
 
 const FormSchema = z.object({
   first_name: z.string().min(2, {
@@ -53,6 +55,7 @@ const FormSchema = z.object({
 
 export default function UserForm() {
   const router = useRouter();
+  const { fetchUsersData, setOpenUserFormModal } = useContext(UserContext);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -73,7 +76,8 @@ export default function UserForm() {
       console.log(res.data.error);
       if (res.status === 201) {
         toast.success("User created successfully!");
-        router.replace("/dashboard");
+        setOpenUserFormModal(false);
+        fetchUsersData();
       }
     } catch (error: any) {
       if (error?.response?.data?.error) {
