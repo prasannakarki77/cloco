@@ -2,18 +2,11 @@
 
 import AuthGuard from "@/components/common/AuthGuard";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter } from "next/navigation";
 import UserTabContent from "./_tabs/UserTabContent";
 import { UserProvider } from "@/context/UserContext";
+import ArtistTabContent from "./_tabs/ArtistTabContent";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -42,18 +35,7 @@ const DashboardPage = () => {
                 <UserTabContent />
               </TabsContent>
               <TabsContent value="artist">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Artist</CardTitle>
-                    <CardDescription>
-                      Change your password here. After saving be logged out.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-2">asdasd</CardContent>
-                  <CardFooter>
-                    <Button>Save password</Button>
-                  </CardFooter>
-                </Card>
+                <ArtistTabContent />
               </TabsContent>
             </Tabs>
           </div>
