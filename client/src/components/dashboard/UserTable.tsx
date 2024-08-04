@@ -20,16 +20,18 @@ import { API_URL } from "@/lib/utils";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/UserContext";
+import { useContext } from "react";
 
 export default function UserTable({ data }: { data: User[] }) {
-  const router = useRouter();
+  const { fetchUsersData } = useContext(UserContext);
 
   const handleDelete = async (id: string) => {
     try {
       const res = await axios.delete(`${API_URL}/user/delete/${id}`);
       if (res.status === 200) {
         toast.success("User deleted Successfully");
-        router.refresh();
+        fetchUsersData();
       }
     } catch (error: any) {
       toast.error(error.res?.data?.message || "Failed to delete data");
@@ -50,7 +52,6 @@ export default function UserTable({ data }: { data: User[] }) {
           <TableHead>Gender</TableHead>
           <TableHead>Created At</TableHead>
           <TableHead>Updated At</TableHead>
-
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>

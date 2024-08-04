@@ -1,37 +1,45 @@
+import UserForm from "@/components/dashboard/UserForm";
 import UserTable from "@/components/dashboard/UserTable";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { API_URL } from "@/lib/utils";
-import { User } from "@/types";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { UserContext } from "@/context/UserContext";
+import React, { useEffect, useContext } from "react";
 
 const UserTabContent = () => {
-  const [usersData, setUsersData] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const { error, fetchUsersData, loading, usersData } = useContext(UserContext);
 
   useEffect(() => {
-    const getUserTableData = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/user/get-all`);
-        setUsersData(res.data);
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getUserTableData();
+    fetchUsersData();
   }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <Card>
-      <UserTable data={usersData} />
-    </Card>
+    <div className=" space-y-4">
+      <Dialog>
+        <DialogTrigger>
+          <Button variant="outline">Create User</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create a User</DialogTitle>
+          </DialogHeader>
+          <UserForm />
+        </DialogContent>
+      </Dialog>
+
+      <Card>
+        <UserTable data={usersData} />
+      </Card>
+    </div>
   );
 };
 
