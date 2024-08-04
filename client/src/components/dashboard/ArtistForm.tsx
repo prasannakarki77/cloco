@@ -25,7 +25,7 @@ import axios from "axios";
 import { API_URL } from "@/lib/utils";
 import { toast } from "sonner";
 import { useContext } from "react";
-import { User, Gender, Artist } from "@/types";
+import { Gender, Artist } from "@/types";
 import { ModalContext } from "@/context/ModalContext";
 import { ArtistContext } from "@/context/ArtistContext";
 

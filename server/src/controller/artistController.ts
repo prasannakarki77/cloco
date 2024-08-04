@@ -136,3 +136,93 @@ export const deleteArtistById = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to delete artist" });
   }
 };
+
+export const createArtistMusic = async (req: Request, res: Response) => {
+  try {
+    const { artist_id, title, album_name, genre } = req.body;
+
+    const result = await pool.query(
+      `INSERT INTO music (artist_id, title, album_name, genre)
+         VALUES ($1, $2, $3, $4)
+         RETURNING *`,
+      [artist_id, title, album_name, genre]
+    );
+    const newRecord = result.rows[0];
+    res.status(201).json(newRecord);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create music record" });
+  }
+};
+
+export const getArtistMusics = async (req: Request, res: Response) => {
+  try {
+    const artist_id = req.query.artist_id;
+    const { rows: musics } = await pool.query(
+      `SELECT * FROM music WHERE artist_id = $1`,
+      [artist_id]
+    );
+
+    res.status(200).json({
+      musics,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch music records" });
+  }
+};
+
+export const updateArtistMusic = async (req: Request, res: Response) => {
+  try {
+    const { id, artist_id, title, album_name, genre } = req.body;
+
+    if (!artist_id || !title || !album_name || !genre) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const musics = await pool.query("SELECT * FROM musics WHERE id = $1", [id]);
+
+    if (musics.rows.length === 0) {
+      return res.status(404).json({ error: "Musics not found" });
+    }
+
+    const result = await pool.query(
+      `UPDATE musics
+         SET title = $1, album_name = $2, genre = $3
+         WHERE id = $4
+         RETURNING *`,
+      [title, album_name, genre, id]
+    );
+
+    const updatedArtist = result.rows[0];
+    res.status(200).json(updatedArtist);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update music record" });
+  }
+};
+
+export const deleteArtistMusic = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: "Music Id is required" });
+    }
+    const result = await pool.query(
+      "DELETE FROM musics WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Music not found" });
+    }
+    res.status(200).json({
+      message: "Music record deleted successfully",
+      artist: result.rows[0],
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete music" });
+  }
+};

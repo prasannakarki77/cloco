@@ -1,6 +1,5 @@
 import ArtistForm from "@/components/dashboard/ArtistForm";
 import ArtistTable from "@/components/dashboard/ArtistTable";
-import UserForm from "@/components/dashboard/UserForm";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -15,13 +14,11 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import { ArtistContext } from "@/context/ArtistContext";
 import { ModalContext } from "@/context/ModalContext";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext } from "react";
 
 const ArtistTabContent = () => {
   const {
