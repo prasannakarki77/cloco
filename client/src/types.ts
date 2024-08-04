@@ -61,3 +61,13 @@ export interface Music {
   created_at?: Date;
   updated_at?: Date;
 }
+
+export interface GetArtistsResponse {
+  data: Artist[];
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
