@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { registerFn } from "@/lib/apiActions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   first_name: z.string().min(2, {
@@ -50,6 +51,8 @@ const FormSchema = z.object({
 });
 
 export default function RegisterPage() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -69,6 +72,7 @@ export default function RegisterPage() {
       console.log(res.data.error);
       if (res.status === 201) {
         toast.success("User registered successfully!");
+        router.push("/");
       }
     } catch (error: any) {
       if (error?.response?.data?.error) {

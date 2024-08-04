@@ -18,6 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { loginFn } from "@/lib/apiActions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const FormSchema = z.object({
   email: z.string().email({
@@ -96,6 +97,15 @@ export default function Login() {
               <Button type="submit">Submit</Button>
             </form>
           </Form>
+          <div className=" mt-4 font-bold">
+            Not registered yet?{" "}
+            <Link
+              href={"/register"}
+              className="hover:underline text-orange-700"
+            >
+              Create an Account
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
