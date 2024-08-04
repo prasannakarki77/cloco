@@ -1,35 +1,34 @@
 import { createContext, useState, ReactNode } from "react";
 import axios from "axios";
-import { User } from "@/types";
+import { Artist } from "@/types";
 import { API_URL } from "@/lib/utils";
 
-interface UserContextProps {
-  usersData: User[];
+interface ArtistContextProps {
+  artistData: Artist[];
   loading: boolean;
   error: string | null;
-  fetchUsersData: () => void;
+  fetchArtistData: () => void;
 }
 
-export const UserContext = createContext<UserContextProps>({
-  usersData: [],
+export const ArtistContext = createContext<ArtistContextProps>({
+  artistData: [],
   loading: true,
   error: null,
-  fetchUsersData: () => {},
+  fetchArtistData: () => {},
 });
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({
+export const ArtistProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [usersData, setUsersData] = useState<User[]>([]);
+  const [artistData, setArtistData] = useState<Artist[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [openUserFormModal, setOpenUserFormModal] = useState<boolean>(false);
 
-  const fetchUsersData = async () => {
+  const fetchArtistData = async () => {
     setLoading(true);
     try {
       const res = await axios.get(`${API_URL}/user/get-all`);
-      setUsersData(res.data);
+      setArtistData(res.data);
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -38,15 +37,15 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <UserContext.Provider
+    <ArtistContext.Provider
       value={{
-        usersData,
+        artistData,
         loading,
         error,
-        fetchUsersData,
+        fetchArtistData,
       }}
     >
       {children}
-    </UserContext.Provider>
+    </ArtistContext.Provider>
   );
 };

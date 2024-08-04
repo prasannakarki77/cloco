@@ -29,11 +29,12 @@ import {
 } from "../ui/dialog";
 import { DialogHeader } from "../ui/dialog";
 import UserForm from "./UserForm";
+import { ModalContext } from "@/context/ModalContext";
 
 export default function UserTable({ data }: { data: User[] }) {
   const { fetchUsersData } = useContext(UserContext);
   const [selectedRow, setSelectedRow] = useState<User | undefined>();
-  const { openUserFormModal, setOpenUserFormModal } = useContext(UserContext);
+  const { isOpen, closeModal, openModal } = useContext(ModalContext);
 
   const handleDelete = async (id: string) => {
     try {
@@ -90,7 +91,7 @@ export default function UserTable({ data }: { data: User[] }) {
                     <DropdownMenuItem
                       onClick={() => {
                         setSelectedRow(user);
-                        setOpenUserFormModal(true);
+                        openModal();
                       }}
                     >
                       Update
@@ -110,7 +111,7 @@ export default function UserTable({ data }: { data: User[] }) {
         </TableBody>
       </Table>
 
-      <Dialog open={openUserFormModal} onOpenChange={setOpenUserFormModal}>
+      <Dialog open={isOpen} onOpenChange={closeModal}>
         <DialogTrigger></DialogTrigger>
         <DialogContent>
           <DialogHeader>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import Provider from "@/components/common/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
         <div className=" text-center pt-6 pb-2 text-2xl font-bold text-orange-600">
           <h1>Cloco Nepal</h1>
         </div>
-        {children}
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

@@ -9,18 +9,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ModalContext } from "@/context/ModalContext";
 import { UserContext } from "@/context/UserContext";
 import React, { useEffect, useContext } from "react";
 
 const UserTabContent = () => {
-  const {
-    error,
-    fetchUsersData,
-    loading,
-    usersData,
-    openUserFormModal,
-    setOpenUserFormModal,
-  } = useContext(UserContext);
+  const { error, fetchUsersData, loading, usersData } = useContext(UserContext);
+  const { isOpen } = useContext(ModalContext);
 
   useEffect(() => {
     fetchUsersData();
@@ -32,7 +27,7 @@ const UserTabContent = () => {
   return (
     <div className=" space-y-4">
       <div className=" flex justify-end">
-        <Dialog defaultOpen={openUserFormModal} modal>
+        <Dialog defaultOpen={isOpen} modal>
           <DialogTrigger asChild>
             <Button variant={"secondary"}>Create User</Button>
           </DialogTrigger>
