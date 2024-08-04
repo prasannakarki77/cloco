@@ -2,6 +2,15 @@
 
 import AuthGuard from "@/components/common/AuthGuard";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter } from "next/navigation";
 
 const DashboardPage = () => {
@@ -13,9 +22,46 @@ const DashboardPage = () => {
   return (
     <AuthGuard>
       <div className="container p-5">
-        <h1>Welcome to dashboard</h1>
-        <div className=" flex justify-end">
+        <div className=" flex justify-between">
+          <h1 className=" text-2xl  font-bold">Welcome to dashboard, Admin</h1>
           <Button onClick={handleLogout}>Logout</Button>
+        </div>
+
+        <div className="">
+          <Tabs defaultValue="account" className="">
+            <TabsList className="grid  grid-cols-2 w-[400px]">
+              <TabsTrigger value="user">User</TabsTrigger>
+              <TabsTrigger value="artist">Artist</TabsTrigger>
+            </TabsList>
+            <TabsContent value="user">
+              <Card>
+                <CardHeader>
+                  <CardTitle>User</CardTitle>
+                  <CardDescription>
+                    Make changes to your account here. Click save when done.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">addddddsd</CardContent>
+                <CardFooter>
+                  <Button>Save changes</Button>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+            <TabsContent value="artist">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Artist</CardTitle>
+                  <CardDescription>
+                    Change your password here. After saving be logged out.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">asdasd</CardContent>
+                <CardFooter>
+                  <Button>Save password</Button>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </AuthGuard>
