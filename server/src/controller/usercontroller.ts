@@ -72,10 +72,10 @@ export const updateUserById = async (req: Request, res: Response) => {
 export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await pool.query("SELECT * FROM users");
-    res.status(201).json(users.rows);
+    res.status(200).json(users.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to create user" });
+    res.status(500).json({ error: "Failed to fetch users" });
   }
 };
 
