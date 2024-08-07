@@ -177,20 +177,20 @@ export const getArtistMusics = async (req: Request, res: Response) => {
 
 export const updateArtistMusic = async (req: Request, res: Response) => {
   try {
-    const { id, artist_id, title, album_name, genre } = req.body;
+    const { id, title, album_name, genre } = req.body;
 
-    if (!artist_id || !title || !album_name || !genre) {
+    if (!id || !title || !album_name || !genre) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const musics = await pool.query("SELECT * FROM musics WHERE id = $1", [id]);
+    const musics = await pool.query("SELECT * FROM music WHERE id = $1", [id]);
 
     if (musics.rows.length === 0) {
       return res.status(404).json({ error: "Musics not found" });
     }
 
     const result = await pool.query(
-      `UPDATE musics
+      `UPDATE music
          SET title = $1, album_name = $2, genre = $3
          WHERE id = $4
          RETURNING *`,
@@ -213,7 +213,7 @@ export const deleteArtistMusic = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Music Id is required" });
     }
     const result = await pool.query(
-      "DELETE FROM musics WHERE id = $1 RETURNING *",
+      "DELETE FROM music WHERE id = $1 RETURNING *",
       [id]
     );
 

@@ -44,7 +44,6 @@ export const createTables = async () => {
           CONSTRAINT fk_artist
               FOREIGN KEY(artist_id)
               REFERENCES artists(id)
-              ON DELETE CASCADE
       );
     `;
 
