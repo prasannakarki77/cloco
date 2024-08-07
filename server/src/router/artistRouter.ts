@@ -16,9 +16,9 @@ artistRouter.put("/update", updateArtist);
 artistRouter.delete("/delete/:id", deleteArtistById);
 artistRouter.get("/get-all", getArtists);
 
-artistRouter.get("/music/create", createArtistMusic);
-artistRouter.get("/music/update", updateArtistMusic);
+artistRouter.post("/music/create", createArtistMusic);
+artistRouter.put("/music/update", updateArtistMusic);
 artistRouter.get("/music/get-all/:id", getArtistMusics);
-artistRouter.get("/music/delete/:id", deleteArtistById);
+artistRouter.delete("/music/delete/:id", deleteArtistById);
 
 export default artistRouter;
