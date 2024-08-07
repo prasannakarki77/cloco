@@ -3,6 +3,7 @@ import {
   createArtist,
   createArtistMusic,
   deleteArtistById,
+  deleteArtistMusic,
   getArtistMusics,
   getArtists,
   updateArtist,
@@ -19,6 +20,6 @@ artistRouter.get("/get-all", getArtists);
 artistRouter.post("/music/create", createArtistMusic);
 artistRouter.put("/music/update", updateArtistMusic);
 artistRouter.get("/music/get-all/:id", getArtistMusics);
-artistRouter.delete("/music/delete/:id", deleteArtistById);
+artistRouter.delete("/music/delete/:id", deleteArtistMusic);
 
 export default artistRouter;
