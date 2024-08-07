@@ -16,7 +16,7 @@ import {
 } from "../ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "../ui/button";
-import { API_URL } from "@/lib/utils";
+import { API_URL, fDate } from "@/lib/utils";
 import axios from "axios";
 import { toast } from "sonner";
 import { UserContext } from "@/context/UserContext";
@@ -74,10 +74,14 @@ export default function UserTable({ data }: { data: User[] }) {
               <TableCell>{user.last_name || "--"}</TableCell>
               <TableCell>{user.email || "--"}</TableCell>
               <TableCell>{user.phone || "--"}</TableCell>
-              <TableCell>{user.dob?.toString() || "--"}</TableCell>
+              <TableCell>{user.dob ? fDate(user.dob) : "--"}</TableCell>
               <TableCell>{user.gender || "--"}</TableCell>
-              <TableCell>{user.created_at?.toString() || "--"}</TableCell>
-              <TableCell>{user.updated_at?.toString() || "--"}</TableCell>
+              <TableCell>
+                {user.created_at ? fDate(user.created_at) : "--"}
+              </TableCell>
+              <TableCell>
+                {user.updated_at ? fDate(user.updated_at) : "--"}
+              </TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
