@@ -140,7 +140,10 @@ const ArtistTabContent = () => {
       <div className="space-x-2 flex gap-1 justify-end items-center">
         <Select
           value={pageSize}
-          onValueChange={setPageSize}
+          onValueChange={(val) => {
+            setPageSize(val);
+            setPage(1);
+          }}
           defaultValue={pageSize}
         >
           <SelectTrigger className="w-[60px] min-w-fit">
