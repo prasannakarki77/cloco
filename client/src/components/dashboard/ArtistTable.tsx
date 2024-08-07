@@ -30,6 +30,7 @@ import { DialogHeader } from "../ui/dialog";
 import { ModalContext } from "@/context/ModalContext";
 import { ArtistContext } from "@/context/ArtistContext";
 import ArtistForm from "./ArtistForm";
+import Link from "next/link";
 
 export default function ArtistTable({ data }: { data: Artist[] }) {
   const { fetchArtistData } = useContext(ArtistContext);
@@ -89,6 +90,11 @@ export default function ArtistTable({ data }: { data: Artist[] }) {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuItem asChild>
+                      <Link href={`/dashboard/artist/${user.id}`}>
+                        View Musics
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => {
                         setSelectedRow(user);
