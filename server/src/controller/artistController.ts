@@ -157,11 +157,14 @@ export const createArtistMusic = async (req: Request, res: Response) => {
 
 export const getArtistMusics = async (req: Request, res: Response) => {
   try {
-    const artist_id = req.query.id;
+    const artist_id = req.params.id;
+    console.log(artist_id);
     const { rows: musics } = await pool.query(
       `SELECT * FROM music WHERE artist_id = $1`,
       [artist_id]
     );
+
+    console.log(musics);
 
     res.status(200).json({
       musics,
