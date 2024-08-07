@@ -18,9 +18,15 @@ import {
 } from "@/components/ui/select";
 import { ArtistContext } from "@/context/ArtistContext";
 import { ModalContext } from "@/context/ModalContext";
-import { useEffect, useContext } from "react";
+import { API_URL } from "@/lib/utils";
+import axios from "axios";
+import { FileDownIcon, FileSpreadsheetIcon } from "lucide-react";
+import { headers } from "next/headers";
+import { useEffect, useContext, useState } from "react";
 
 const ArtistTabContent = () => {
+  const [message, setMessage] = useState<string>("");
+
   const {
     error,
     fetchArtistData,
@@ -37,12 +43,60 @@ const ArtistTabContent = () => {
     fetchArtistData();
   }, [page, pageSize]);
 
+  const handleUpload = async (file: File) => {
+    if (!file) {
+      setMessage("Please select a file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post(
+        `${API_URL}/artist/import-csv`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setMessage(response.data.message);
+      fetchArtistData();
+    } catch (error) {
+      setMessage("Error uploading file.");
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      handleUpload(e.target.files[0]);
+    }
+  };
+
+  const handleExport = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/artist/export-csv`, {
+        responseType: "blob",
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "artists.csv");
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      console.error("Error exporting artists:", error);
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className=" space-y-4">
-      <div className=" flex justify-end">
+    <div className=" space-y-4 mt-4">
+      <div className=" flex justify-between">
         <Dialog defaultOpen={isOpen} modal>
           <DialogTrigger asChild>
             <Button variant={"secondary"}>Add an Artist</Button>
@@ -54,7 +108,32 @@ const ArtistTabContent = () => {
             <ArtistForm />
           </DialogContent>
         </Dialog>
+        <div className=" flex justify-end gap-2">
+          <Button
+            variant={"secondary"}
+            onClick={handleExport}
+            className=" flex items-center gap-1"
+          >
+            <FileDownIcon size={20} /> Download CSV
+          </Button>
+          <Button asChild variant={"secondary"}>
+            <label
+              htmlFor="upload-button"
+              className="cursor-pointer  flex items-center gap-1"
+            >
+              <FileSpreadsheetIcon size={20} /> Import CSV
+            </label>
+          </Button>
+          <input
+            type="file"
+            id="upload-button"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+            accept="csv"
+          />
+        </div>
       </div>
+
       <Card>
         <ArtistTable data={artistsRes?.data || []} />
       </Card>
