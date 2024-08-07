@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@/components/common/Loader";
 import ArtistMusicTable from "@/components/dashboard/artist/ArtistMusicTable";
 import MusicForm from "@/components/dashboard/artist/MusicForm";
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,7 @@ const ArtistPage = ({ params }: { params: IParams }) => {
     fetchArtistMusic(params.id);
   }, [params.id]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
 
   return (

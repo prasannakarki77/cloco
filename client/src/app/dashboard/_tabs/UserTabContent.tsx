@@ -1,3 +1,4 @@
+import Loader from "@/components/common/Loader";
 import UserForm from "@/components/dashboard/UserForm";
 import UserTable from "@/components/dashboard/UserTable";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ const UserTabContent = () => {
     fetchUsersData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
 
   return (

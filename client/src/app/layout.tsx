@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import Provider from "@/components/common/Provider";
+import Image from "next/image";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +22,16 @@ export default function RootLayout({
     <html lang="en">
       <Toaster richColors />
       <body className={inter.className}>
-        <div className=" text-center pt-6 pb-2 text-2xl font-bold text-orange-600">
-          <h1>Cloco Nepal</h1>
+        <div className=" flex justify-center pt-6 pb-2 text-2xl font-bold text-orange-600">
+          <Link href={"/"}>
+            <Image
+              src={"/logo.png"}
+              alt="logo"
+              width={150}
+              height={100}
+              className=""
+            />
+          </Link>
         </div>
         <Provider>{children}</Provider>
       </body>

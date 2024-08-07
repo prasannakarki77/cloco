@@ -1,3 +1,4 @@
+import Loader from "@/components/common/Loader";
 import ArtistForm from "@/components/dashboard/ArtistForm";
 import ArtistTable from "@/components/dashboard/ArtistTable";
 import { Button } from "@/components/ui/button";
@@ -91,7 +92,7 @@ const ArtistTabContent = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
 
   return (
