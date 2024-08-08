@@ -117,6 +117,27 @@ export const getArtists = async (req: Request, res: Response) => {
   }
 };
 
+export const getArtistById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ error: "Artist ID is required" });
+    }
+
+    const { rows: artists } = await pool.query(
+      `SELECT * FROM artists WHERE id = $1`,
+      [id]
+    );
+
+    if (artists.length === 0) {
+      return res.status(404).json({ error: "Artist not found" });
+    }
+    res.status(200).json(artists[0]);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch artist" });
+  }
+};
+
 export const deleteArtistById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;

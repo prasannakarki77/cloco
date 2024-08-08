@@ -5,6 +5,7 @@ import {
   deleteArtistById,
   deleteArtistMusic,
   exportArtistsToCSV,
+  getArtistById,
   getArtistMusics,
   getArtists,
   importArtistsFromCSV,
@@ -21,6 +22,7 @@ artistRouter.post("/create", createArtist);
 artistRouter.put("/update", updateArtist);
 artistRouter.delete("/delete/:id", deleteArtistById);
 artistRouter.get("/get-all", getArtists);
+artistRouter.delete("/get/:id", getArtistById);
 
 artistRouter.post("/music/create", createArtistMusic);
 artistRouter.put("/music/update", updateArtistMusic);
