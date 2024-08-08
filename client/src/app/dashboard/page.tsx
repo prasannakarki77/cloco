@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import UserTabContent from "./_tabs/UserTabContent";
 import { UserProvider } from "@/context/UserContext";
 import ArtistTabContent from "./_tabs/ArtistTabContent";
+import { useGetAuth } from "@/hooks/auth";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -14,13 +15,15 @@ const DashboardPage = () => {
     localStorage.clear();
     router.push("/");
   };
+
+  const { first_name, last_name } = useGetAuth();
   return (
     <AuthGuard>
       <UserProvider>
         <div className="container p-5">
           <div className=" flex justify-between">
             <h1 className=" text-2xl  font-bold">
-              Welcome to dashboard, Admin
+              Welcome to dashboard, {first_name} {last_name}
             </h1>
             <Button onClick={handleLogout}>Logout</Button>
           </div>
