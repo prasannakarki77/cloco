@@ -25,3 +25,12 @@ export const loginFn = async (
     headers,
   });
 };
+
+export const getArtistById = async (id: string) => {
+  try {
+    const res = await axios.get(`${API_URL}/artist/get/${id}`);
+    return res;
+  } catch (error: any) {
+    console.log(error);
+  }
+};

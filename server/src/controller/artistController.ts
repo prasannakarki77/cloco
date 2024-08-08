@@ -189,8 +189,6 @@ export const getArtistMusics = async (req: Request, res: Response) => {
       [artist_id]
     );
 
-    console.log(musics);
-
     res.status(200).json({
       musics,
     });
