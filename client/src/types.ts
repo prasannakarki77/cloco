@@ -72,3 +72,13 @@ export interface GetArtistsResponse {
   hasNextPage: boolean;
   hasPrevPage: boolean;
 }
+
+export interface GetUsersResponse {
+  data: User[];
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
