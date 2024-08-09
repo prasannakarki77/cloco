@@ -16,7 +16,6 @@ import { ArtistContext } from "@/context/ArtistContext";
 import { ModalContext } from "@/context/ModalContext";
 import { getArtistById } from "@/lib/apiActions";
 import { Artist } from "@/types";
-import { error } from "console";
 
 import React, { useContext, useEffect, useState } from "react";
 
