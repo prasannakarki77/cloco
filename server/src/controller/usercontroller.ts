@@ -70,8 +70,38 @@ export const updateUserById = async (req: Request, res: Response) => {
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await pool.query("SELECT * FROM users");
-    res.status(200).json(users.rows);
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = parseInt(req.query.pageSize as string) || 10;
+    const offset = (page - 1) * pageSize;
+
+    const { rows: users } = await pool.query(
+      `
+      SELECT * FROM users
+      ORDER BY id
+      LIMIT $1 OFFSET $2
+    `,
+      [pageSize, offset]
+    );
+
+    const countQuery = `SELECT COUNT(*) FROM users`;
+    const {
+      rows: [{ count }],
+    } = await pool.query(countQuery);
+    const totalCount = parseInt(count, 10);
+
+    const totalPages = Math.ceil(totalCount / pageSize);
+    const hasNextPage = page < totalPages;
+    const hasPrevPage = page > 1;
+
+    res.status(200).json({
+      data: users,
+      page,
+      pageSize,
+      totalPages,
+      totalCount,
+      hasNextPage,
+      hasPrevPage,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch users" });
